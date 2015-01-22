@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Algo</title>
+
+	<meta charset="utf-8" />
+	<meta name="google" value="notranslate" />
+	<meta name="generator" content="Grupo Surrealista" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="/css/main.css" />
+</head>
+<body>
+	<h1>Proyecto de Departamentos Amueblados</h1>
+
+	<p>Esta es la exploración financiera de un proyecto de inversión que consiste en comprar un terreno, construir departamentos, amueblarlos y rentarlos para ejecutivos. Tenemos valores iniciales que muestran una situación específica, pero puedes cambiarlos para ver qué pasa.</p>
+
+	<section id="setup">
+		<h2>Inicio</h2>
+
+		<div class="datos">
+			<h3>Terreno</h3>
+
+			<div class="dato">
+				<div class="nombre">Costo del metro cuadrado de terreno</div>
+				<input type="text" class="valor" id="costoMetroTerreno" value="3000" />
+			</div>
+
+			<div class="dato">
+				<div class="nombre">Metros cuadrados en el terreno</div>
+				<input type="text" class="valor" id="metrosTerreno" value="1000" />
+			</div>
+		</div>
+
+		<div class="datos">
+			<h3>Construcción</h3>
+
+			<div class="dato">
+				<div class="nombre">Costo del metro cuadrado de construcción</div>
+				<input type="text" class="valor" id="costoMetroConstruccion" value="6000" />
+			</div>
+
+			<div class="dato">
+				<div class="nombre">Metros de construcción por departamento</div>
+				<input type="text" class="valor" id="metrosConstruccion" value="36" />
+			</div>
+
+			<div class="dato">
+				<div class="nombre">Número de departamentos a construir</div>
+				<input type="text" class="valor" id="numDepartamentos" value="10" />
+			</div>
+		</div>
+
+		<div class="datos">
+			<h3>Otros</h3>
+
+			<div class="dato">
+				<div class="nombre">Costo de mobiliario por departamento</div>
+				<input type="text" class="valor" value="30000" id="costoMobiliario" />
+			</div>
+
+			<div class="dato">
+				<div class="nombre">Otros costos</div>
+				<input type="text" class="valor" value="50000" id="otrosCostos" />
+			</div>
+		</div>
+
+		<div class="datos">
+			<h3>Totales</h3>
+
+			<div class="dato">
+				<div class="nombre">Costo por Terreno</div>
+				<div class="valor" id="totalTerreno">0</div>
+			</div>
+
+			<div class="dato">
+				<div class="nombre">Costo de Construcción</div>
+				<div class="valor" id="totalConstruccion">0</div>
+			</div>
+
+			<div class="dato">
+				<div class="nombre">Costos Varios</div>
+				<div class="valor" id="totalVarios">0</div>
+			</div>
+
+			<div class="dato">
+				<div class="nombre">Costo Total</div>
+				<div class="valor" id="totalCosto">0</div>
+			</div>
+		</div>
+	</section>
+
+
+	<section id="mensual">
+		<h2>Mensual</h2>
+
+		<div class="datos">
+			<div class="dato">
+				<div class="nombre">Renta Mensual por Departamento</div>
+				<input type="text" class="valor" value="6000" id="rentaMensual" />
+			</div>
+
+			<div class="dato">
+				<div class="nombre">Mantenimiento</div>
+				<input type="text" class="valor" value="20000" id="mantenimiento" />
+			</div>
+
+			<div class="dato">
+				<div class="nombre">Renta Mensual Total</div>
+				<div class="valor" id="rentaMensualTotal">0</div>
+			</div>
+
+			<div class="dato">
+				<div class="nombre">Utilidad Anual</div>
+				<div class="valor" id="utilidadAnual">0</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="tir">
+		<h2>Tasa Interna de Retorno</h2>
+		<div class="datos">
+			<div class="dato">
+				<div class="nombre">Años para recuperar la inversión</div>
+				<div class="valor" id="tiempoRecuperacion">0</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="prestamo">
+		<h2>Préstamo Bancario</h2>
+
+		<div class="datos">
+			<div class="dato">
+				<div class="nombre">Tasa de Interés (%)</div>
+				<input type="text" class="valor" value="10" id="tasaInteres" />
+			</div>
+
+			<div class="dato">
+				<div class="nombre">Periodo en Años</div>
+				<input type="text" class="valor" value="10" id="periodo" />
+			</div>
+
+			<div class="dato">
+				<div class="nombre">Enganche</div>
+				<div class="valor" id="totalEnganche">0</div>
+			</div>
+
+			<div class="dato">
+				<div class="nombre">Deuda</div>
+				<div class="valor" id="totalDeuda">0</div>
+			</div>
+		</div>
+	</section>
+
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/finance.js"></script>
+	<script type="text/javascript" src="js/app.js"></script>
+</body>
+</html>
