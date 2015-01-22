@@ -1,76 +1,82 @@
-$( document ).ready(function() {
+var findValue, replaceValue, calcularDeuda, calcularTIR, calcularIngresos, calcularCostos, inputs;
 
-	var calcularCostos = function() {
-		// Costos de Terreno
-		var costoMetroTerreno = parseFloat($('#costoMetroTerreno').val());
-		var metrosTerreno = parseFloat($('#metrosTerreno').val());
+findValue = function (id) {
+    return parseFloat(document.getElementById(id).value);
+};
 
-		var totalTerreno = costoMetroTerreno * metrosTerreno;
-		$('#totalTerreno').html( finance.format(totalTerreno));
+replaceValue = function (id, value) {
+    document.getElementById(id).innerHTML = finance.format(value);
+};
 
+calcularDeuda = function (anualidad, totalCosto) {
+    var tasaInteres, periodo, meses, mensualidad, totalDeuda, totalEnganche;
 
-		// Costos de Construcción
-		var costoMetroConstruccion = parseFloat($('#costoMetroConstruccion').val());
-		var metrosConstruccion = parseFloat($('#metrosConstruccion').val());
-		var numDepartamentos = parseFloat($('#numDepartamentos').val());
+    tasaInteres = findValue('tasaInteres');
+    periodo = findValue('periodo');
 
-		var totalConstruccion = numDepartamentos * metrosConstruccion * costoMetroConstruccion;
-		$('#totalConstruccion').html( finance.format(totalConstruccion));
+    meses = periodo * 12;
+    mensualidad = anualidad / 12;
 
+    totalDeuda = finance.calculateAmount(meses, tasaInteres, mensualidad);
+    replaceValue('totalDeuda', totalDeuda);
 
-		// Costos Varios
-		var costoMobiliario = parseFloat($('#costoMobiliario').val());
-		var otrosCostos = parseFloat($('#otrosCostos').val());
+    totalEnganche = totalCosto - totalDeuda;
+    replaceValue('totalEnganche', totalEnganche);
+};
 
-		var totalVarios = (costoMobiliario * numDepartamentos) + otrosCostos;
-		$('#totalVarios').html( finance.format(totalVarios));
+calcularTIR = function (totalCosto, utilidadAnual) {
+    var tiempoRecuperacion = totalCosto / utilidadAnual;
+    replaceValue('tiempoRecuperacion', tiempoRecuperacion);
+};
 
+calcularIngresos = function (totalCosto, numDepartamentos) {
+    var rentaMensual, mantenimiento, rentaMensualTotal, utilidadAnual;
 
-		// Costo Total
-		var totalCosto = totalTerreno + totalConstruccion + totalVarios;
-		$('#totalCosto').html( finance.format(totalCosto));
+    rentaMensual = findValue('rentaMensual');
+    mantenimiento = findValue('mantenimiento');
 
-		var anualidad = calcularIngresos(totalCosto);
-		calcularDeuda(anualidad, totalCosto);
-	};
+    rentaMensualTotal = rentaMensual * numDepartamentos;
+    replaceValue('rentaMensualTotal', rentaMensualTotal);
 
-	var calcularIngresos = function(totalCosto) {
-		var rentaMensual = parseFloat($('#rentaMensual').val());
-		var mantenimiento = parseFloat($('#mantenimiento').val());
-		var numDepartamentos = parseFloat($('#numDepartamentos').val());
+    utilidadAnual = (rentaMensualTotal - mantenimiento) * 12;
+    replaceValue('utilidadAnual', utilidadAnual);
 
-		var rentaMensualTotal = rentaMensual * numDepartamentos;
-		$('#rentaMensualTotal').html( finance.format(rentaMensualTotal));
+    calcularTIR(totalCosto, utilidadAnual);
 
-		var utilidadAnual = (rentaMensualTotal - mantenimiento) * 12;
-		$('#utilidadAnual').html( finance.format(utilidadAnual));
+    return utilidadAnual;
+};
 
-		calcularTIR(totalCosto, utilidadAnual);
+calcularCostos = function () {
+    var costoMetroTerreno, metrosTerreno, totalTerreno, costoMetroConstruccion, metrosConstruccion, numDepartamentos, totalConstruccion, costoMobiliario, otrosCostos, totalVarios, totalCosto, anualidad;
 
-		return utilidadAnual;
-	};
+    // Costos de Terreno
+    costoMetroTerreno = findValue('costoMetroTerreno');
+    metrosTerreno = findValue('metrosTerreno');
+    totalTerreno = costoMetroTerreno * metrosTerreno;
+    replaceValue('totalTerreno', totalTerreno);
 
-	var calcularTIR = function(totalCosto, utilidadAnual) {
-		var tiempoRecuperacion = totalCosto / utilidadAnual;
-		$('#tiempoRecuperacion').html( finance.format(tiempoRecuperacion));
-	};
+    // Costos de Construcción
+    costoMetroConstruccion = findValue('costoMetroConstruccion');
+    metrosConstruccion = findValue('metrosConstruccion');
+    numDepartamentos = findValue('numDepartamentos');
+    totalConstruccion = numDepartamentos * metrosConstruccion * costoMetroConstruccion;
+    replaceValue('totalConstruccion', totalConstruccion);
 
-	var calcularDeuda = function(anualidad, totalCosto) {
-		var tasaInteres = parseFloat($('#tasaInteres').val());
-		var periodo = parseFloat($('#periodo').val());
+    // Costos Varios
+    costoMobiliario = findValue('costoMobiliario');
+    otrosCostos = findValue('otrosCostos');
+    totalVarios = (costoMobiliario * numDepartamentos) + otrosCostos;
+    replaceValue('totalVarios', totalVarios);
 
-		var meses = periodo * 12;
-		var mensualidad = anualidad / 12;
+    // Costo Total
+    totalCosto = totalTerreno + totalConstruccion + totalVarios;
+    replaceValue('totalCosto', totalCosto);
 
-		var totalDeuda = finance.calculateAmount(meses, tasaInteres, mensualidad);
-		$('#totalDeuda').html( finance.format(totalDeuda) );
+    anualidad = calcularIngresos(totalCosto, numDepartamentos);
+    calcularDeuda(anualidad, totalCosto);
+};
 
-		var totalEnganche = totalCosto - totalDeuda;
-		$('#totalEnganche').html( finance.format(totalEnganche) );
-	}
+calcularCostos();
 
-	calcularCostos();
-
-	$('input').on('change', calcularCostos);
-
-});
+inputs = document.getElementsByTagName('input');
+inputs.onchange = calcularCostos();
