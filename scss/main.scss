@@ -13,12 +13,6 @@
     }
 }
 
-@mixin box-sizing($arg) {
-	-webkit-box-sizing: $arg;
-	   -moz-box-sizing: $arg;
-	        box-sizing: $arg;
-}
-
 body {
 	font-family: 'Ideal Sans SSm A', 'Ideal Sans SSm B';
 	line-height: 1.4;
@@ -99,7 +93,17 @@ input {
 
 	text-align: center;
 
-	@include box-sizing(border-box);
+	-webkit-box-shadow: none;
+	   -moz-box-shadow: none;
+	        box-shadow: none;
+
+	-webkit-border-radius: 0;
+	   -moz-border-radius: 0;
+	        border-radius: 0;
+
+	-webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+	        box-sizing: border-box;
 
 	&:focus, &:active {
 		outline: none;
