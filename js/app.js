@@ -40,19 +40,46 @@ function calculaMonto(meses, interes, mensualidad) {
     return result;
 }
 
-function calcularDeuda(anualidad, totalCosto) {
-    var tasaInteres, periodo, meses, mensualidad, totalDeuda, totalEnganche;
+function calculaMensualidad(monto, meses, interes){
+    var result = 0;
 
+    if (interes == 0){
+        result = monto / meses;
+    } else {
+        var i = ((interes / 100) / 12),
+            i_to_m = Math.pow((i + 1), meses),
+            p = monto * ((i * i_to_m) / (i_to_m - 1));
+        result = Math.round(p * 100) / 100;
+    }
+
+    return result;
+}
+
+function calcularDeuda(anualidad, totalCosto) {
+    var gananciaAnual, tasaInteres, periodo, meses, mensualidad, totalDeuda, totalEnganche;
+
+    gananciaAnual = 0;
     tasaInteres = findValue('tasaInteres');
     periodo = findValue('periodo');
 
     meses = periodo * 12;
     mensualidad = anualidad / 12;
 
+    totalDeuda = calculaMonto(meses, tasaInteres, mensualidad);
+
+    if (totalDeuda > totalCosto) {
+
+        totalDeuda = totalCosto;
+        mensualidad = calculaMensualidad(totalDeuda, meses, tasaInteres);
+        var anualidadNueva = mensualidad * 12;
+        gananciaAnual = anualidad - anualidadNueva;
+        anualidad = anualidadNueva;
+
+    }
+
+    replaceValue('gananciaAnual', gananciaAnual);
     replaceValue('mensualidad', mensualidad);
     replaceValue('anualidad', anualidad);
-
-    totalDeuda = calculaMonto(meses, tasaInteres, mensualidad);
     replaceValue('totalDeuda', totalDeuda);
 
     totalEnganche = totalCosto - totalDeuda;
