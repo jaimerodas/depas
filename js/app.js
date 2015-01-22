@@ -1,14 +1,14 @@
-var findValue, replaceValue, calcularDeuda, calcularTIR, calcularIngresos, calcularCostos, inputs;
+var inputs, i;
 
-findValue = function (id) {
+function findValue(id) {
     return parseFloat(document.getElementById(id).value);
-};
+}
 
-replaceValue = function (id, value) {
-    document.getElementById(id).innerHTML = finance.format(value);
-};
+function replaceValue(id, value) {
+    document.getElementById(id).innerHTML = finance.format(value, {precision: 2});
+}
 
-calcularDeuda = function (anualidad, totalCosto) {
+function calcularDeuda(anualidad, totalCosto) {
     var tasaInteres, periodo, meses, mensualidad, totalDeuda, totalEnganche;
 
     tasaInteres = findValue('tasaInteres');
@@ -22,14 +22,14 @@ calcularDeuda = function (anualidad, totalCosto) {
 
     totalEnganche = totalCosto - totalDeuda;
     replaceValue('totalEnganche', totalEnganche);
-};
+}
 
-calcularTIR = function (totalCosto, utilidadAnual) {
+function calcularTIR(totalCosto, utilidadAnual) {
     var tiempoRecuperacion = totalCosto / utilidadAnual;
     replaceValue('tiempoRecuperacion', tiempoRecuperacion);
-};
+}
 
-calcularIngresos = function (totalCosto, numDepartamentos) {
+function calcularIngresos(totalCosto, numDepartamentos) {
     var rentaMensual, mantenimiento, rentaMensualTotal, utilidadAnual;
 
     rentaMensual = findValue('rentaMensual');
@@ -44,9 +44,9 @@ calcularIngresos = function (totalCosto, numDepartamentos) {
     calcularTIR(totalCosto, utilidadAnual);
 
     return utilidadAnual;
-};
+}
 
-calcularCostos = function () {
+function calcularCostos() {
     var costoMetroTerreno, metrosTerreno, totalTerreno, costoMetroConstruccion, metrosConstruccion, numDepartamentos, totalConstruccion, costoMobiliario, otrosCostos, totalVarios, totalCosto, anualidad;
 
     // Costos de Terreno
@@ -74,9 +74,12 @@ calcularCostos = function () {
 
     anualidad = calcularIngresos(totalCosto, numDepartamentos);
     calcularDeuda(anualidad, totalCosto);
-};
-
-calcularCostos();
+}
 
 inputs = document.getElementsByTagName('input');
-inputs.onchange = calcularCostos();
+
+for (i = 0; i < inputs.length; i++) {
+    inputs[i].addEventListener("change", calcularCostos);
+}
+
+calcularCostos();
