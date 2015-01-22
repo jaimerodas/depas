@@ -20,7 +20,7 @@ body {
 
 article {
 	width: 95%;
-	max-width: 800px;
+	max-width: 900px;
 	margin: 0 auto;
 }
 
@@ -111,10 +111,11 @@ input {
 	}
 }
 
-$min: 540px;
-$max: 760px;
+$min: 542px;
+$max: 768px;
+$med: $max - 1;
 
-@media screen and (min-width: $min) and (max-width: $max) {
+@media screen and (min-width: $min) and (max-width: $med) {
 	.tres .dato {
 		width: 49%;
 		float: left;
