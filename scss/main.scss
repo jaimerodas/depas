@@ -36,10 +36,6 @@ section {
 	margin-bottom: -1px;
 }
 
-.numero {
-	font-family: 'Tungsten A', 'Tungsten B';
-}
-
 h1, h2, h3 {
 	margin: 0;
 	text-align: center;
@@ -48,6 +44,7 @@ h1, h2, h3 {
 h1 {
 	font-family: 'Tungsten A', 'Tungsten B';
 	font-size: 64px;
+	font-weight: normal;
 	text-transform: uppercase;
 	margin: 40px 0;
 	line-height: 1;
@@ -55,11 +52,19 @@ h1 {
 h2 { font-size: 24px; }
 h3 { font-size: 18px; }
 
+p {
+	margin: 0 0 40px;
+}
+
 .datos {
-	margin: 0 0 20px;
+	margin: 0 0 15px;
 	text-align: center;
 
 	@include clearfix;
+}
+
+.dato {
+	margin: 0 0 5px;
 }
 
 .nombre {
