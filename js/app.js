@@ -4,10 +4,10 @@ function findValue(id) {
     return parseFloat(document.getElementById(id).value);
 }
 
-function replaceValue(id, value) {
+function replaceValue(id, value, moneda) {
     var partes, numero;
 
-    partes = value.toFixed(2).toString().split('.');
+    partes = Math.abs(value).toFixed(2).toString().split('.');
 
     partes[0] = partes[0].replace(/(\d)/g, function (match, g1, offset, string) {
         return (offset > 0 && (string.length - offset) % 3 == 0) ? ',' + g1 : g1;
@@ -16,7 +16,10 @@ function replaceValue(id, value) {
     numero = partes.join('.');
 
     if (value < 0) {
-        numero = '-' + numero;
+        numero = '<span class="negativo">-' + numero + '</span>';
+    }
+    if (moneda === undefined) {
+        numero = '$ ' + numero
     }
 
     document.getElementById(id).innerHTML = numero;
@@ -46,6 +49,9 @@ function calcularDeuda(anualidad, totalCosto) {
     meses = periodo * 12;
     mensualidad = anualidad / 12;
 
+    replaceValue('mensualidad', mensualidad);
+    replaceValue('anualidad', anualidad);
+
     totalDeuda = calculaMonto(meses, tasaInteres, mensualidad);
     replaceValue('totalDeuda', totalDeuda);
 
@@ -55,7 +61,7 @@ function calcularDeuda(anualidad, totalCosto) {
 
 function calcularTIR(totalCosto, utilidadAnual) {
     var tiempoRecuperacion = totalCosto / utilidadAnual;
-    replaceValue('tiempoRecuperacion', tiempoRecuperacion);
+    replaceValue('tiempoRecuperacion', tiempoRecuperacion, false);
 }
 
 function calcularIngresos(totalCosto, numDepartamentos) {
