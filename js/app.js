@@ -5,7 +5,36 @@ function findValue(id) {
 }
 
 function replaceValue(id, value) {
-    document.getElementById(id).innerHTML = finance.format(value, {precision: 2});
+    var partes, numero;
+
+    partes = value.toFixed(2).toString().split('.');
+
+    partes[0] = partes[0].replace(/(\d)/g, function (match, g1, offset, string) {
+        return (offset > 0 && (string.length - offset) % 3 == 0) ? ',' + g1 : g1;
+    });
+
+    numero = partes.join('.');
+
+    if (value < 0) {
+        numero = '-' + numero;
+    }
+
+    document.getElementById(id).innerHTML = numero;
+}
+
+function calculaMonto(meses, interes, mensualidad) {
+    var result = 0;
+
+    if (interes == 0) {
+        result = mensualidad * meses;
+    } else {
+        var i = ((interes / 100) / 12),
+            i_to_m = Math.pow((i + 1), meses),
+            a = mensualidad / ((i * i_to_m) / (i_to_m - 1));
+        result = Math.round(a * 100) / 100;
+    }
+
+    return result;
 }
 
 function calcularDeuda(anualidad, totalCosto) {
@@ -17,7 +46,7 @@ function calcularDeuda(anualidad, totalCosto) {
     meses = periodo * 12;
     mensualidad = anualidad / 12;
 
-    totalDeuda = finance.calculateAmount(meses, tasaInteres, mensualidad);
+    totalDeuda = calculaMonto(meses, tasaInteres, mensualidad);
     replaceValue('totalDeuda', totalDeuda);
 
     totalEnganche = totalCosto - totalDeuda;
